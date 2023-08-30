@@ -1,63 +1,22 @@
-import {ApolloServer, gql} from "@apollo/server";
-const cars = [
-    {
-   model: "2005",
-   brand: "BMW",
-   color: "Blanco",
-   propierty: "Estefanny"
-    },
-    {
-    model: "2018",
-    brand: "Mitsubishi",
-    color: "Rojo",
-    propierty: "Walter"
-    },
-    {
-    model: "2020",
-    brand: "Toyota",
-    color: "Blanco",
-    propierty: "Daniel"
-    },
-    {
-    model: "2023",
-    brand: "Mercedes",
-    color: "Plata",
-    propierty: "Felipe"
-    },
-            
-]
-
-
-
-
-const typeDefinitions = gql`
-type Car {
-    model: String!
-    brand: String!
-    color: String!
-    propietary: String!
-
-} 
-
-type Query {
-    carCount: Int!
-    allCars: [Car]!
-}
-`
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { medicines } from "./data.js";
+import { typeDefs } from "./structure-graphql.js";
 
 const resolvers = {
-    Query: {
-        carCount: () => cars.length,
-        allCars: ()  => cars
-    }
-}
-
+  Query: {
+    medicineCount: () => medicines.length,
+    medicines: () => medicines,
+  },
+};
 
 const server = new ApolloServer({
-      typeDefs: typeDefinitions,
-      resolvers
-})
+  typeDefs,
+  resolvers,
+});
 
-server.listen().then((url)=> {
-    console.log(`server ready at ${url}`);
-})
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 },
+});
+
+console.log(`🚀  Server ready at: ${url}`);
