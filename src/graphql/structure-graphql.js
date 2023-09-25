@@ -8,17 +8,21 @@ export const typeDefs = `
   }
 
    type Medicine {
-    id: ID!
+    _id: ID!
     name: String!
     laboratory: String!
     description: String!
     pharmacy: TypePharmacy!
     amount: Int!
+    createdAt: String,
+    updateAt:String,
   }
 
- 
   type Query {
     medicineCount: Int!
-    medicines: [Medicine]!
+    ListMedicines: [Medicine]!
+  }
+  type Mutation {
+    createMedicine(name:String,laboratory:String,description:String,pharmacy:TypePharmacy,amount:Int):Medicine
   }
 `;
