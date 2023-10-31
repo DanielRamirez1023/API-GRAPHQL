@@ -13,6 +13,7 @@ export const typeDefs = `
     laboratory: String!
     description: String!
     pharmacy: TypePharmacy!
+    completed: Boolean!,
     amount: Int!
     createdAt: String,
     updateAt:String,
@@ -24,5 +25,7 @@ export const typeDefs = `
   }
   type Mutation {
     createMedicine(name:String,laboratory:String,description:String,pharmacy:TypePharmacy,amount:Int):Medicine
+    deleteMedicine(_id:ID!):Medicine
+    updateMedicine(_id:ID!,name:String,laboratory:String,description:String,pharmacy:TypePharmacy,completed:Boolean,amount:Int):Medicine
   }
 `;

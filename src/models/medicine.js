@@ -8,6 +8,10 @@ const MedicineSchema = new mongoose.Schema(
     laboratory: String,
     description: String,
     pharmacy: String,
+    completed: {
+      type: Boolean,
+      default: false,
+    },
     amount: Number,
   },
   {

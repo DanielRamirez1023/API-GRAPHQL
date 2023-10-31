@@ -13,5 +13,19 @@ export default {
       const medicineSave = await itemMedicine.save();
       return medicineSave;
     },
+    deleteMedicine: async (_, { _id }) => {
+      const deleteMedicine = await medicine.findByIdAndDelete(_id);
+
+      if (!deleteMedicine) throw new Error("Faltante no encontrado");
+      return deleteMedicine;
+    },
+    updateMedicine: async (_, args) => {
+      const updateMedicine = await medicine.findByIdAndUpdate(args._id, args, {
+        new: true,
+      });
+
+      if (!updateMedicine) throw new Error("Faltante no encontrado");
+      return updateMedicine;
+    },
   },
 };
