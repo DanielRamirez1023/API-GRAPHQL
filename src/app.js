@@ -3,6 +3,7 @@ import express from "express";
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
 import http from "http";
+import { authenticate } from "./middlewares/auth.js";
 
 export async function startApolloServer(typeDefs, resolvers) {
   const app = express();
@@ -14,6 +15,8 @@ export async function startApolloServer(typeDefs, resolvers) {
   });
 
   await server.start();
+
+  app.use(authenticate);
 
   app.use("/graphql", cors(), express.json(), expressMiddleware(server));
 
