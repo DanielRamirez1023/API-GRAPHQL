@@ -16,7 +16,8 @@ export default {
       const medicineSave = await itemMedicine.save();
       return medicineSave;
     },
-    deleteMedicine: async (_, { _id }) => {
+    deleteMedicine: async (_, { _id }, { userToken }) => {
+      if (userToken.role !== "Admin") throw new Error("No tienes permisos para crear usuarios");
       const deleteMedicine = await medicine.findByIdAndDelete(_id);
 
       if (!deleteMedicine) throw new Error("Faltante no encontrado");
@@ -30,7 +31,8 @@ export default {
       if (!updateMedicine) throw new Error("Faltante no encontrado");
       return updateMedicine;
     },
-    createUser: async (_, { name, email, password, role }) => {
+    createUser: async (_, { name, email, password, role }, { userToken }) => {
+      if (userToken.role !== "Admin") throw new Error("No tienes permisos para crear usuarios");
       const userExist = await user.findOne({ email });
 
       const roleValid = ["Admin", "Regente"];
@@ -45,7 +47,6 @@ export default {
       return userSave;
     },
     login: async (_, { email, password }) => {
-      console.log(req);
       const userLogin = await user.findOne({ email, password });
 
       if (!userLogin) throw new Error("Usuario o contraseña incorrectos");
@@ -54,7 +55,7 @@ export default {
         { _id: userLogin._id, name: userLogin.name, email: userLogin.email, role: userLogin.role },
         "pharmaSolvekey",
         {
-          expiresIn: "1d",
+          expiresIn: "1h",
         }
       );
 
