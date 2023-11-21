@@ -4,9 +4,6 @@ import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
 import http from "http";
 import { verifyToken } from "./auth/verify-token.js";
-import jwt from "jsonwebtoken";
-import user from "./models/user.js";
-// import { authenticate } from "./middlewares/auth.js";
 
 export async function startApolloServer(typeDefs, resolvers) {
   const app = express();
@@ -18,24 +15,28 @@ export async function startApolloServer(typeDefs, resolvers) {
   });
 
   await server.start();
-
-  // app.use(authenticate);
-
+  // no devolver respuestas al cliente en un middleware
   app.use(
     "/graphql",
     cors(),
     express.json(),
     expressMiddleware(server, {
-      context: async ({ req, res }) => {
-        // obtengo el token de la cabezera de la peticion
-        const token = req.headers["authorization"]?.split(" ")[1];
+      context: async ({ req }) => {
+        try {
+          // obtengo el token de la cabezera de la peticion
+          const data = req.headers.authorization || "";
+          const token = data.replace("Bearer ", "");
 
-        // decodifico el token para obtener los datos del usuario
-        if (!token) {
-          res.status(401).json({ message: "no se ha enviado el token" });
+          const userToken = verifyToken(token);
+
+          if (!userToken) {
+            return { userToken: null };
+          }
+
+          return { userToken };
+        } catch (error) {
+          console.log(error);
         }
-
-        return { userToken: verifyToken(token) };
       },
     })
   );

@@ -17,7 +17,7 @@ export default {
       return medicineSave;
     },
     deleteMedicine: async (_, { _id }, { userToken }) => {
-      if (userToken.role !== "Admin") throw new Error("No tienes permisos para crear usuarios");
+      if (userToken.role !== "Admin") throw new Error("No tienes permisos para eliminar usuarios");
       const deleteMedicine = await medicine.findByIdAndDelete(_id);
 
       if (!deleteMedicine) throw new Error("Faltante no encontrado");
@@ -35,9 +35,9 @@ export default {
       if (userToken.role !== "Admin") throw new Error("No tienes permisos para crear usuarios");
       const userExist = await user.findOne({ email });
 
-      const roleValid = ["Admin", "Regente"];
-
       if (userExist) throw new Error("El usuario ya existe");
+
+      const roleValid = ["Admin", "Regente"];
 
       if (!roleValid.includes(role)) throw new Error("El rol no es valido");
 
@@ -55,11 +55,11 @@ export default {
         { _id: userLogin._id, name: userLogin.name, email: userLogin.email, role: userLogin.role },
         "pharmaSolvekey",
         {
-          expiresIn: "1h",
+          expiresIn: "1d",
         }
       );
 
-      return token;
+      return { user: userLogin, token };
     },
   },
 };
