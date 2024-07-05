@@ -12,13 +12,19 @@ export const typeDefs = `
     Regente,
   }
 
+  enum TypeStatus {
+    SIN_REVISAR
+    PENDIENTE
+    COMPLETADO
+  }
+
    type Medicine {
     _id: ID!
     name: String!
     laboratory: String!
     description: String!
     pharmacy: TypePharmacy!
-    completed: Boolean!,
+    status: TypeStatus!,
     amount: Int!
     createdAt: String,
     updateAt:String,
@@ -47,10 +53,10 @@ export const typeDefs = `
 
   
   type Mutation {
-    createMedicine(name:String,laboratory:String,description:String,pharmacy:TypePharmacy,amount:Int):Medicine
+    createMedicine(name:String,laboratory:String,description:String,pharmacy:TypePharmacy,amount:Int,status:TypeStatus):Medicine
     deleteMedicine(_id:ID!):Medicine
-    updateMedicine(_id:ID!,name:String,laboratory:String,description:String,pharmacy:TypePharmacy,completed:Boolean,amount:Int):Medicine
-    createUser(name:String,email:String,password:String,role:String):User
+    updateMedicine(_id:ID!,name:String,laboratory:String,description:String,pharmacy:TypePharmacy,completed:Boolean,amount:Int,status:TypeStatus):Medicine
+    createUser(name:String,email:String,password:String,role:TypeRole):User
     login(email:String,password:String):Login
   }
 `;

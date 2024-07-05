@@ -8,9 +8,10 @@ const MedicineSchema = new mongoose.Schema(
     laboratory: String,
     description: String,
     pharmacy: String,
-    completed: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: "SIN_REVISAR",
+      enum: ["SIN_REVISAR", "PENDIENTE", "COMPLETADO"],
     },
     amount: Number,
   },

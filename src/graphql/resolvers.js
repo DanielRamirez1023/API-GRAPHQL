@@ -10,8 +10,8 @@ export default {
     ListUsers: async () => await user.find(),
   },
   Mutation: {
-    createMedicine: async (_, { name, laboratory, description, pharmacy, amount }) => {
-      const itemMedicine = new medicine({ _id: uuidv4(), name, laboratory, description, pharmacy, amount });
+    createMedicine: async (_, { name, laboratory, description, pharmacy, amount, status }) => {
+      const itemMedicine = new medicine({ _id: uuidv4(), name, laboratory, description, pharmacy, amount, status });
 
       const medicineSave = await itemMedicine.save();
       return medicineSave;
