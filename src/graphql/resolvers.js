@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import medicine from "../models/medicine.js";
 import user from "../models/user.js";
 import jwt from "jsonwebtoken";
-
+import { sendEmail } from "../configSendEmails.js";
 export default {
   Query: {
     medicineCount: async () => await medicine.count(),
@@ -14,6 +14,10 @@ export default {
       const itemMedicine = new medicine({ _id: uuidv4(), name, laboratory, description, pharmacy, amount, status });
 
       const medicineSave = await itemMedicine.save();
+
+      const userName = "Dani Regente";
+
+      sendEmail(pharmacy, userName);
       return medicineSave;
     },
     deleteMedicine: async (_, { _id }, { userToken }) => {
