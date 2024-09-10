@@ -1,16 +1,14 @@
-#Backend pharmaSolve
+# Backend pharmaSolve
 
-##Description
+## Description
 This application will allow pharmacies to manage their medicine shortages. 
 
 
-##commads
-
+##  commads
 - npm install
 - npm start
 
-##configuration enviroments
-
+## configuration enviroments
 This project uses enviroment variables to manage sensitive settings
 
 - PORT = Port Where will start the application in local
